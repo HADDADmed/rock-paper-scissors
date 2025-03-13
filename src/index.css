@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+
+/* Root styles */
+body {
+    background-color: #121212; /* Dark background */
+    color: #f0f0f0; /* Light text color */
+    font-family: Arial, sans-serif;
+    font-weight: 300; /* Optional: Make text a bit lighter */
+  }
+  
+  /* Ensure all text is light */
+  *, *::before, *::after {
+    color: inherit;
+    font-weight: inherit;
+  }
+  
+  /* Override specific elements if needed */
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff; /* Pure white for headers */
+  }
+  
+  button {
+    color: #ffffff; /* Light text for buttons */
+  }
+  

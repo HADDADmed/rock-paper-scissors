@@ -45,7 +45,7 @@ const Result: React.FC<ResultProps> = ({ isUserWinner, onPlayAgain }) => {
           bottom: "-20px",
         }}
       >
-        <PlayAgain onPlayAgain={onPlayAgain} />
+        <PlayAgain  onPlayAgain={onPlayAgain} result={isUserWinner} />
       </div>
     </div>
   );

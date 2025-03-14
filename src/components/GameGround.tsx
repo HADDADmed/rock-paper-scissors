@@ -1,32 +1,36 @@
+// GameGround.tsx
 import React from "react";
 import PlayerChoice from "./PlayerChoice";
 import Choice from "./Choice";
 import { RPSChoice } from "../types";
 import Result from "./Result";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../store/store";
+import { playerChoice, resetChoices } from "../features/gameSlice";
 
-interface GameGroundProps {
-  computerChoice: RPSChoice | null;
-  userChoice: RPSChoice | null;
-  choices: RPSChoice[];
-  isUserWinner: boolean | "draw" | null;
-  onPlayAgain: () => void;
-  onUserChoice: (choice: RPSChoice) => void;
-}
+// Use lowercase choices to match the type
+const choices: RPSChoice[] = ["Rock", "Paper", "Scissors"];
 
-const GameGround: React.FC<GameGroundProps> = ({
-  computerChoice,
-  userChoice,
-  choices,
-  isUserWinner,
-  onPlayAgain,
-  onUserChoice,
-}) => {
-  console.log("userChoice", userChoice);
-  console.log("computerChoice", computerChoice);
+const GameGround: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  // Get state from Redux store
+  const { playerChoice: userChoice, computerChoice, result } = useSelector(
+    (state: RootState) => state.game
+  );
+
+  const handleUserChoice = (choice: RPSChoice) => {
+    console.log("User choice", choice);
+    dispatch(playerChoice(choice));
+  };
+
+  // Only resets the view (choices/result), leaving score intact
+  const handlePlayAgain = () => {
+    dispatch(resetChoices());
+  };
+
   return (
     <div style={{ marginTop: "1rem" }}>
-      {/* Display different sections based on whether the user has played */}
-
       {userChoice === null && (
         // Section before the user picks
         <div>
@@ -36,15 +40,15 @@ const GameGround: React.FC<GameGroundProps> = ({
               <PlayerChoice
                 key={choice}
                 choice={choice}
-                onUserChoice={() => onUserChoice(choice)}
+                onUserChoice={() => handleUserChoice(choice)}
               />
             ))}
           </div>
         </div>
       )}
+
       {userChoice !== null && (
         // Section after the user picks
-
         <div className="flex justify-center items-center space-x-8">
           <div className="flex flex-col items-center">
             <Choice choice={userChoice} side="user" />
@@ -52,15 +56,18 @@ const GameGround: React.FC<GameGroundProps> = ({
           </div>
 
           {/* Show the Result component only after both choices are made */}
-          {userChoice && computerChoice && (
+          {computerChoice && (
             <div className="flex flex-col items-center">
-              <Result isUserWinner={isUserWinner} onPlayAgain={onPlayAgain} />
+              <Result isUserWinner={result} onPlayAgain={handlePlayAgain} />
             </div>
           )}
 
           <div className="flex flex-col items-center">
             <Choice choice={computerChoice} side="computer" />
-            <PlayerChoice key={computerChoice} choice={computerChoice} />
+            <PlayerChoice
+              key={computerChoice ?? "comp"}
+              choice={computerChoice}
+            />
           </div>
         </div>
       )}

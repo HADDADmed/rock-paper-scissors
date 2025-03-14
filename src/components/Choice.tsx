@@ -6,15 +6,18 @@ interface ChoiceProps {
 }
 
 const Choice: React.FC<ChoiceProps> = ({ side, choice }) => {
-  const textStyles = "font-bold uppercase text-center my-2";
+  const baseStyles = "font-semibold text-2xl tracking-wide transition-all m-6";
+  const userStyles = "text-blue-600"; // Cool blue for user choice
+  const computerStyles = "text-gray-500"; // Subtle gray for computer choice
+  const emptyStyles = "text-yellow-600 italic"; // Soft yellow for prompts
 
   if (side === "user") {
     return choice ? (
-      <div className={textStyles}>
-        You picked <strong>{choice}</strong>
-      </div>
+      <p className={`${baseStyles} ${userStyles}`}>
+        You picked <strong className="font-extrabold">{choice}</strong>
+      </p>
     ) : (
-      <div className={textStyles}>Please pick one before playing!</div>
+      <p className={`${baseStyles} ${emptyStyles}`}>Please pick one before playing!</p>
     );
   }
 
@@ -23,9 +26,9 @@ const Choice: React.FC<ChoiceProps> = ({ side, choice }) => {
   }
 
   return (
-    <div className={textStyles}>
-      The Computer picked <strong>{choice}</strong>
-    </div>
+    <p className={`${baseStyles} ${computerStyles}`}>
+      The Computer picked <strong className="font-extrabold">{choice}</strong>
+    </p>
   );
 };
 

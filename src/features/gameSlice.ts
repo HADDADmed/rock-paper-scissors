@@ -45,7 +45,6 @@ const gameSlice = createSlice({
       state.playerChoice = playerChoice;
       state.computerChoice = computerChoice;
       state.result = result;
-
       if (result === true) {
         state.score += 1;
       } else if (result === false && state.score > 0) {

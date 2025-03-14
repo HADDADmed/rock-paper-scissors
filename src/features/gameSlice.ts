@@ -1,4 +1,3 @@
-// slices/gameSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RPSChoice } from "../types";
 import { GameState } from "../interfaces";
@@ -9,6 +8,9 @@ const initialState: GameState = {
   result: null,
   score: 0,
   gamesPlayed: 0,
+  wins: 0,
+  losses: 0,
+  draws: 0,
 };
 
 const gameSlice = createSlice({
@@ -27,38 +29,47 @@ const gameSlice = createSlice({
       let result: boolean | "draw" | null;
       if (playerChoice === computerChoice) {
         result = "draw";
+        state.draws += 1; // Increment draws
       } else if (
         (playerChoice === "Rock" && computerChoice === "Scissors") ||
         (playerChoice === "Paper" && computerChoice === "Rock") ||
         (playerChoice === "Scissors" && computerChoice === "Paper")
       ) {
         result = true;
+        state.wins += 1; // Increment wins
       } else {
         result = false;
+        state.losses += 1; // Increment losses
       }
 
       state.playerChoice = playerChoice;
       state.computerChoice = computerChoice;
       state.result = result;
+
       if (result === true) {
         state.score += 1;
       } else if (result === false && state.score > 0) {
         state.score -= 1;
       }
+
       state.gamesPlayed += 1;
     },
+
     resetChoices: (state) => {
       state.playerChoice = null;
       state.computerChoice = null;
       state.result = null;
     },
-    // Full reset, e.g., for a separate "reset score" button later
+
     resetGame: (state) => {
       state.playerChoice = null;
       state.computerChoice = null;
       state.result = null;
       state.gamesPlayed = 0;
       state.score = 0;
+      state.wins = 0;
+      state.losses = 0;
+      state.draws = 0;
     },
   },
 });

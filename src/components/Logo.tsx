@@ -41,9 +41,9 @@ const PlayerChoiceLogo: React.FC<LogoProps> = ({ choice }) => {
   return isRPS ? (
     // RPS choice with circle and border
     <div
-      className={`w-52 h-52 flex items-center justify-center rounded-full border-16 ${borderColor} bg-gray-200`}
+      className={`w-42 h-42 flex items-center justify-center rounded-full border-16 ${borderColor} bg-gray-200`}
     >
-      <img src={logoPath} alt={logoAlt} className="w-26 h-36" />
+      <img src={logoPath} alt={logoAlt} className="w-22 h-32" />
     </div>
   ) : (
     // Non-RPS logo (normal display)

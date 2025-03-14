@@ -1,31 +1,27 @@
+import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 import PlayAgain from "./PlayAgain";
 
-interface ResultProps {
-  isUserWinner: boolean | "draw" | null;
-  onPlayAgain: () => void;
-}
+const Result: React.FC = () => {
+  const isUserWinner = useSelector((state: RootState) => state.game.result);
 
-const Result: React.FC<ResultProps> = ({ isUserWinner, onPlayAgain }) => {
   let resultMessage = "";
   let textColor = "";
-  let buttonBorder = "";
 
   if (isUserWinner === "draw") {
     resultMessage = "IT'S A TIE!";
     textColor = "text-gray-300";
-    buttonBorder = "";
   } else if (isUserWinner) {
     resultMessage = "YOU WIN!";
     textColor = "text-green-400";
-    buttonBorder = "";
   } else {
     resultMessage = "YOU LOSE!";
     textColor = "text-red-500";
-    buttonBorder = "border-2 border-red-300";
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-full  space-y-6">
+    <div className="flex flex-col items-center justify-center h-full space-y-6">
       <div>
         <h2 className={`text-4xl font-extrabold uppercase ${textColor}`}>
           {resultMessage}
@@ -39,13 +35,8 @@ const Result: React.FC<ResultProps> = ({ isUserWinner, onPlayAgain }) => {
         </p>
       </div>
 
-      <div
-        style={{
-          position: "relative",
-          bottom: "-20px",
-        }}
-      >
-        <PlayAgain  onPlayAgain={onPlayAgain} result={isUserWinner} />
+      <div style={{ position: "relative", bottom: "-20px" }}>
+        <PlayAgain />
       </div>
     </div>
   );
